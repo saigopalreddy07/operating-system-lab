@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main() {
+    printf("Parent PID: %d\n", getpid());
+
+    if (fork() == 0) {
+        printf("Child 1 PID: %d\n", getpid());
+    } else if (fork() == 0) {
+        printf("Child 2 PID: %d\n", getpid());
+    } else {
+        wait(NULL);
+        wait(NULL);
+    }
+    return 0;
+}
