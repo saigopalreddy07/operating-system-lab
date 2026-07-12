@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int q[5], front = -1, rear = -1, p;
+
+int main() {
+    front = rear = 0;
+
+    printf("Enter 3 Process IDs: ");
+    for (int i = 0; i < 3; i++)
+        scanf("%d", &q[rear++]);
+
+    printf("Ready Queue: ");
+    for (int i = front; i < rear; i++)
+        printf("P%d ", q[i]);
+
+    printf("\nExecuting Process: P%d", q[front++]);
+
+    printf("\nReady Queue After Execution: ");
+    for (int i = front; i < rear; i++)
+        printf("P%d ", q[i]);
+
+    return 0;
+}
