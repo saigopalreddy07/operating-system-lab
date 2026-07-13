@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+#define SIZE 5
+
+int queue[SIZE], front = 0, rear = 0, count = 0;
+
+void enqueue(int item) {
+    if (count == SIZE)
+        printf("Buffer Full\n");
+    else {
+        queue[rear] = item;
+        rear = (rear + 1) % SIZE;
+        count++;
+    }
+}
+
+void dequeue() {
+    if (count == 0)
+        printf("Buffer Empty\n");
+    else {
+        printf("Removed: %d\n", queue[front]);
+        front = (front + 1) % SIZE;
+        count--;
+    }
+}
+
+int main() {
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+
+    dequeue();
+    dequeue();
+
+    return 0;
+}
