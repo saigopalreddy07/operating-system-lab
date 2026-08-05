@@ -1,0 +1,66 @@
+Y.SAI GOPAL REDDY
+REG NO: 192524083
+
+Q1. Deadlock Debugging
+Cause of Deadlock:
+P1 locks R1 and waits for R2.
+P2 locks R2 and waits for R1.
+Both processes wait for each other, creating a circular wait and causing deadlock.
+Optimization
+Use a fixed order for resource allocation.
+Example: Both processes should request R1 first and then R2.
+Result:
+Circular wait is eliminated.
+Deadlock is avoided.
+
+Q2. CPU Utilization Problem
+Cause:
+Processes frequently move between Ready and Waiting due to repeated I/O operations.
+The CPU stays idle while waiting for I/O completion.
+Optimization:
+Use multiprogramming to overlap CPU and I/O operations.
+Apply efficient scheduling algorithms such as Round Robin or MLFQ.
+Result:
+Improved CPU utilization.
+Reduced idle time.
+Better throughput and response time.
+
+Q3. Memory Bottleneck Debugging
+Memory Usage:
+Code = 5 MB
+Heap = 150 MB
+Stack = 25 × 1 MB = 25 MB
+Total = 180 MB
+Issue:
+Too many threads increase stack memory usage and page faults, affecting performance.
+Optimization:
+Use a thread pool or reduce the number of threads.
+Optimize memory allocation and reduce stack size.
+Result:
+Reduced page faults.
+Improved memory utilization.
+Faster execution.
+
+Q4. Starvation Debugging
+Cause:
+P5 is placed in Q3 (lowest priority).
+Higher-priority queues continue to receive CPU time, so P5 keeps waiting.
+Optimization:
+Apply Aging to gradually increase the priority of waiting processes.
+This ensures every process eventually gets CPU time.
+Result:
+Fair CPU scheduling.
+Starvation is prevented.
+Improved response for all processes.
+
+Q5. Context-Switch Overhead Debugging
+Cause:
+A very small time quantum (1 ms) causes frequent context switches.
+Frequent I/O operations also increase switching overhead.
+Optimization:
+Increase the time quantum to about 5–10 ms.
+Reduce unnecessary preemption and optimize I/O scheduling.
+Result:
+Lower context-switch overhead.
+Better CPU efficiency.
+Higher system throughput.
