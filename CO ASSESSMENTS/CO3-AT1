@@ -1,0 +1,136 @@
+Y.sai gopal redddy
+reg no:192524083
+
+ANSWER 1:
+#include <stdio.h>
+int main() {
+    int base, limit, la;
+
+    printf("Base: ");
+    scanf("%d", &base);
+
+    printf("Limit: ");
+    scanf("%d", &limit);
+
+    printf("Logical Address: ");
+    scanf("%d", &la);
+
+    if (la < limit)
+        printf("Physical Address = %d", base + la);
+    else
+        printf("Invalid Address");
+
+    return 0;
+}
+OUTPUT:
+Base: 1000
+Limit: 500
+Logical Address: 200
+Physical Address = 1200
+
+
+ANSWER 2:
+#include <stdio.h>
+int main() {
+    int pageTable[5] = {2, 4, 1, 7, 3};
+    int page, offset, size = 100;
+
+    printf("Enter Page Number: ");
+    scanf("%d", &page);
+
+    printf("Enter Offset: ");
+    scanf("%d", &offset);
+
+    if (page < 0 || page >= 5 || offset >= size)
+        printf("Invalid Page Number or Offset");
+    else {
+        int physical = pageTable[page] * size + offset;
+        printf("Frame Number = %d\n", pageTable[page]);
+        printf("Physical Address = %d", physical);
+    }
+
+    return 0;
+}
+OUTPUT:
+Enter Page Number: 2
+Enter Offset: 45
+Frame Number = 1
+Physical Address = 145
+
+
+ANSWER 3:
+#include <stdio.h>
+
+int main() {
+    int pt[5], p, o, i;
+
+    for(i = 0; i < 5; i++) {
+        printf("Frame for Page %d: ", i);
+        scanf("%d", &pt[i]);
+    }
+
+    printf("Page and Offset: ");
+    scanf("%d%d", &p, &o);
+
+    if(p >= 5 || o >= 100)
+        printf("Invalid");
+    else {
+        printf("Page %d -> Frame %d\n", p, pt[p]);
+        printf("Physical Address = %d", pt[p] * 100 + o);
+    }
+
+    return 0;
+}
+
+OUTPUT:
+Frame for Page 0: 3
+Frame for Page 1: 5
+Frame for Page 2: 1
+Frame for Page 3: 4
+Frame for Page 4: 2
+Page and Offset: 2 50
+Page 2 -> Frame 1
+Physical Address = 150
+
+
+ANSWER 4:
+#include <stdio.h>
+
+int main() {
+    float hit, mem = 100, tlb = 10, eat;
+
+    printf("Enter TLB Hit Ratio: ");
+    scanf("%f", &hit);
+
+    eat = hit * (tlb + mem) + (1 - hit) * (tlb + 2 * mem);
+
+    printf("Without TLB = %.0f ns\n", 2 * mem);
+    printf("With TLB (EAT) = %.1f ns", eat);
+
+    return 0;
+}
+OUTPUT:
+Enter TLB Hit Ratio: 0.8
+Without TLB = 200 ns
+With TLB (EAT) = 130.0 ns
+
+
+ANSWER 5:
+#include <stdio.h>
+
+int main() {
+    int base = 1000, limit = 500, addr;
+
+    printf("Enter Logical Address: ");
+    scanf("%d", &addr);
+
+    if (addr < limit)
+        printf("Physical Address = %d", base + addr);
+    else
+        printf("Memory Access Denied");
+
+    return 0;
+}
+OUTPUT:
+Enter Logical Address: 200
+Physical Address = 1200
