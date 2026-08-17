@@ -68,7 +68,8 @@ Method (1-Contiguous 2-Linked 3-Indexed): 3
 Index Block: 0
 Allocated Blocks: 1 2 3 4 5
 
-  QUESTION NO:2
+ 
+QUESTION NO:2
   #include <stdio.h>
 
 int main() {
@@ -112,6 +113,7 @@ Allocated Blocks: 0 2 3
 Updated Bitmap:
 1 1 1 1 1 0 0 1
 
+
 QUESTION NO:3
   #include <stdio.h>
 #include <stdlib.h>
@@ -146,6 +148,7 @@ Enter head position: 53
 
 FCFS Order: 98 183 37 122 14
 Total Seek Time = 593
+
 
 QUESTION NO:4
   #include <stdio.h>
@@ -183,7 +186,8 @@ Enter head position: 50
 Service Order: 55 58 39 18
 Total Head Movement = 48
 
-QUESTION  NO:
+
+QUESTION  NO:5
 #include <stdio.h>
 #include <stdlib.h>
 
