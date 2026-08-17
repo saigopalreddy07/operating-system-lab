@@ -1,0 +1,220 @@
+NAME:Y.SAI GOPAL REDDY
+REG NO:192524083
+
+  QUESTION NO:1
+  #include <stdio.h>
+
+int main() {
+    int total, size, method, start, i;
+
+    printf("Total Blocks: ");
+    scanf("%d", &total);
+
+    printf("File Size (blocks): ");
+    scanf("%d", &size);
+
+    printf("Method (1-Contiguous 2-Linked 3-Indexed): ");
+    scanf("%d", &method);
+
+    if (size > total) {
+        printf("Allocation not possible\n");
+        return 0;
+    }
+
+    if (method == 1) {
+        printf("Start Block: ");
+        scanf("%d", &start);
+
+        if (start + size > total)
+            printf("Not enough contiguous space\n");
+        else {
+            printf("Allocated Blocks: ");
+            for (i = start; i < start + size; i++)
+                printf("%d ", i);
+        }
+    }
+    else if (method == 2) {
+        printf("Allocated Blocks (Linked): ");
+        for (i = 0; i < size; i++)
+            printf("%d ", i * 2);
+    }
+    else if (method == 3) {
+        printf("Index Block: 0\n");
+        printf("Allocated Blocks: ");
+        for (i = 1; i <= size; i++)
+            printf("%d ", i);
+    }
+    else
+        printf("Invalid Method");
+
+    return 0;
+}
+OUTPUT:
+Total Blocks: 20
+File Size (blocks): 5
+Method (1-Contiguous 2-Linked 3-Indexed): 1
+Start Block: 3
+
+Allocated Blocks: 3 4 5 6 7
+  Total Blocks: 20
+File Size (blocks): 4
+Method (1-Contiguous 2-Linked 3-Indexed): 2
+
+Allocated Blocks (Linked): 0 2 4 6
+Total Blocks: 20
+File Size (blocks): 5
+Method (1-Contiguous 2-Linked 3-Indexed): 3
+
+Index Block: 0
+Allocated Blocks: 1 2 3 4 5
+
+  QUESTION NO:2
+  #include <stdio.h>
+
+int main() {
+    int n, b[50], req, i;
+
+    printf("Enter total blocks: ");
+    scanf("%d", &n);
+
+    printf("Enter bitmap (0-Free 1-Allocated):\n");
+    for(i=0;i<n;i++)
+        scanf("%d",&b[i]);
+
+    printf("Blocks required: ");
+    scanf("%d",&req);
+
+    printf("Allocated Blocks: ");
+    for(i=0;i<n && req>0;i++){
+        if(b[i]==0){
+            b[i]=1;
+            printf("%d ",i);
+            req--;
+        }
+    }
+
+    if(req>0)
+        printf("\nAllocation not possible");
+
+    printf("\nUpdated Bitmap:\n");
+    for(i=0;i<n;i++)
+        printf("%d ",b[i]);
+
+    return 0;
+}
+OUTPUT:
+Enter total blocks: 8
+Enter bitmap (0-Free 1-Allocated):
+0 1 0 0 1 0 0 1
+Blocks required: 3
+Allocated Blocks: 0 2 3
+
+Updated Bitmap:
+1 1 1 1 1 0 0 1
+
+QUESTION NO:3
+  #include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n,i,head,req[20],seek=0;
+
+    printf("Enter number of requests: ");
+    scanf("%d",&n);
+
+    printf("Enter requests: ");
+    for(i=0;i<n;i++)
+        scanf("%d",&req[i]);
+
+    printf("Enter head position: ");
+    scanf("%d",&head);
+
+    printf("\nFCFS Order: ");
+    for(i=0;i<n;i++){
+        printf("%d ",req[i]);
+        seek+=abs(head-req[i]);
+        head=req[i];
+    }
+
+    printf("\nTotal Seek Time = %d\n",seek);
+    return 0;
+}
+OUTPUT:
+Enter number of requests: 5
+Enter requests: 98 183 37 122 14
+Enter head position: 53
+
+FCFS Order: 98 183 37 122 14
+Total Seek Time = 593
+
+QUESTION NO:4
+  #include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n,i,head,req[20],seek=0;
+
+    printf("Enter number of requests: ");
+    scanf("%d",&n);
+
+    printf("Enter requests: ");
+    for(i=0;i<n;i++)
+        scanf("%d",&req[i]);
+
+    printf("Enter head position: ");
+    scanf("%d",&head);
+
+    printf("Service Order: ");
+    for(i=0;i<n;i++){
+        printf("%d ",req[i]);
+        seek+=abs(head-req[i]);
+        head=req[i];
+    }
+
+    printf("\nTotal Head Movement = %d",seek);
+
+    return 0;
+}
+OUTPUT:
+Enter number of requests: 4
+Enter requests: 55 58 39 18
+Enter head position: 50
+
+Service Order: 55 58 39 18
+Total Head Movement = 48
+
+QUESTION  NO:
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int total,file,head,i,seek=0;
+
+    printf("Total Blocks: ");
+    scanf("%d",&total);
+
+    printf("File Size: ");
+    scanf("%d",&file);
+
+    printf("Head Position: ");
+    scanf("%d",&head);
+
+    printf("Allocated Blocks: ");
+    for(i=0;i<file;i++){
+        printf("%d ",i);
+        seek+=abs(head-i);
+        head=i;
+    }
+
+    printf("\nSeek Time = %d",seek);
+
+    return 0;
+}
+OUTPUT:
+Total Blocks: 20
+File Size: 5
+Head Position: 3
+
+Allocated Blocks: 0 1 2 3 4
+Seek Time = 7
+  
