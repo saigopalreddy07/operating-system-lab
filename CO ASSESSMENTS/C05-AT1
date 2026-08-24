@@ -5,97 +5,69 @@ REG NO:192524083
 
 
 1. Optimized Linux File System Layout for 50 GB Server
-The server has a total storage capacity of 50 GB and needs to store system logs, user files and application data. Since log files are growing rapidly, a separate partition should be provided for logs.
-Proposed File System Layout
-/boot – 1 GB – Boot files
-/ – 8 GB – Operating system files
-/var/log – 10 GB – System and application logs
-/home – 10 GB – User files
-/opt – 7 GB – Application data
-Swap – 4 GB – Virtual memory
-Free/Reserved Space – 10 GB – Emergency use
+A separate partition should be allocated for logs to prevent disk exhaustion.
+/boot – 1 GB
+/ – 8 GB
+/var/log – 10 GB
+/home – 10 GB
+/opt – 7 GB
+Swap – 4 GB
+Free space – 10 GB
 Total = 50 GB
-The /var/log partition is limited to 10 GB, so log files cannot consume space belonging to the operating system or user files.
-Log rotation can be implemented using the Linux logrotate utility. Logs can be rotated daily, compressed and old logs can be deleted after a fixed retention period.
-Disk usage should be monitored regularly using tools such as df and du. Alerts can be generated when disk usage reaches 80% or 90%.
-Other measures include:
-Keep /var/log as a separate partition.
-Compress old log files.
-Delete or archive unnecessary logs.
-Maintain reserved free space.
-Monitor disk and inode usage.
-Configure systemd journal limits if required.
+Use logrotate to rotate and compress logs. Monitor disk usage using `df` and `du`. The separate 10 GB `/var/log` partition ensures logs cannot fill the entire disk.
 
-2.Kernel-Level Optimization for High CPU Workloads
-Frequent context switching reduces CPU performance because the processor spends more time switching between processes instead of executing useful work. Since hardware upgrades are not possible, kernel-level optimization should be used.
-The following techniques can improve performance:
-CPU Affinity: Assign CPU-intensive processes to specific CPU cores to reduce unnecessary CPU migration.
-Scheduler Tuning: Adjust process priorities so that important applications receive CPU time first.
-Real-Time Scheduling: Use scheduling policies such as SCHED_FIFO and SCHED_RR for real-time applications.
-CPU Isolation: Reserve selected CPU cores for real-time applications so that other processes do not interfere.
-Process Priority: Increase the priority of critical processes and reduce the priority of background processes.
-Kernel Modules: Identify and remove unnecessary kernel modules to reduce resource usage. Critical modules should not be removed.
-Disable Unnecessary Services: Stop services that are not required because they consume CPU and memory resources.
-Kernel Parameter Tuning: Appropriate kernel parameters can be adjusted to improve scheduling and system responsiveness.
 
-3.Processing 1 Million Log Entries Using Shell Scripting
-Processing one million log entries per day requires an efficient method because processing every line individually can take a long time.
-The best approach is to use AWK because it can process the entire log file in a single pass.
-For example, AWK can be used to count ERROR, WARNING and INFO messages from the log file.
-A suitable shell script can perform the following operations:
-Check whether the log file exists.
-Read the file using AWK.
-Count different types of log messages.
-Display the final results.
-Measure execution time.
-AWK is preferred because:
-It processes the file sequentially in a single pass.
-It avoids unnecessary process creation.
-It can filter, count and extract fields efficiently.
-It is suitable for processing millions of records.
-It is faster than using shell loops for every log entry.
-Unnecessary commands and repeated processing should be avoided. For example, using a loop to execute separate commands for every log entry creates significant overhead.
-The execution time should be measured and the script should be optimized so that it completes within the required 2 minutes.
+2. Kernel-Level Optimization for High CPU Workloads
+The following techniques can reduce context switching and improve performance:
+CPU Affinity:Assign processes to specific CPU cores.
+Scheduler Tuning:Adjust process priorities.
+Real-Time Scheduling:Use `SCHED_FIFO` and `SCHED_RR`.
+CPU Isolation:Reserve CPU cores for real-time tasks.
+Kernel Modules:Remove unnecessary modules.
+Disable Services:Stop unnecessary background services.
+Kernel Tuning:Optimize suitable kernel parameters.
+These techniques improve CPU efficiency and support real-time processing without hardware upgrades.
+
+
+3. Processing 1 Million Log Entries
+Use AWK for efficient log processing.
+AWK can:
+Process the file in a single pass.
+Count and filter log entries.
+Reduce unnecessary process creation.
+Process millions of records efficiently.
+Avoid line-by-line shell loops because they are slower.
+The script should be tested and optimized to complete within 2 minutes.
+
 
 4. Managing a Faulty Process Consuming 90% CPU
-A faulty process consuming 90% CPU can affect the performance of other services. Since the system cannot be restarted, the process must be controlled without affecting critical services.
-The process management strategy is:
-Identify the Process: Use tools such as top or ps to identify the process consuming excessive CPU.
-Monitor the Process: Continuously monitor the process to determine whether the CPU usage remains high.
-Check Dependencies: Verify whether the process is related to any critical service.
-Reduce Priority: Lower the process priority so that critical processes receive CPU time.
-CPU Affinity: Restrict the faulty process to selected CPU cores.
-Graceful Termination: If the process continues causing problems, terminate it gracefully.
-Force Termination: If the process does not respond, force termination can be used as a last option.
-Verify Critical Services: After controlling the process, check that all critical services are still running properly.
-The correct sequence is:
-Identify → Monitor → Reduce Priority → Restrict CPU → Terminate if Necessary → Verify Services
+Follow these steps:
+1. Identify the process using `top` or `ps`.
+2. Monitor its CPU usage.
+3. Check whether it affects critical services.
+4. Reduce its priority.
+5. Restrict it to selected CPU cores if required.
+6. Terminate it gracefully if the problem continues.
+7. Force terminate only as a last option.
+8. Verify that critical services are still running.
+Strategy:
+Identify → Monitor → Control → Terminate if necessary → Verify
+
 
 5. RAM Allocation for 5 Virtual Machines
 Given:
-Total physical RAM = 16 GB
-Number of virtual machines = 5
-Minimum RAM required by each VM = 2 GB
-RAM required by host OS = 4 GB
-Calculation
-RAM required by VMs:
-5 × 2 GB = 10 GB
-RAM required by host:
-4 GB
-Total required:
-10 GB + 4 GB = 14 GB
-Remaining RAM:
-16 GB − 14 GB = 2 GB
-Proposed Allocation
+Total RAM = 16 GB
+5 VMs × 2 GB = 10 GB
+Host OS = 4 GB
+Total required = 14 GB
+Remaining = 2 GB
+Allocation
 Host OS = 4 GB
 VM1 = 2 GB
 VM2 = 2 GB
 VM3 = 2 GB
 VM4 = 2 GB
 VM5 = 2 GB
-Reserved/Headroom = 2 GB
+Reserve = 2 GB
 Total = 16 GB
-Memory ballooning and dynamic memory allocation can be used to provide additional memory to VMs when required.
-The host should always retain at least 4 GB because it is necessary for the operating system and virtualization overhead. The remaining 2 GB should be kept as reserve instead of allocating all memory to the VMs.
-
-  
+Memory ballooning and dynamic allocation can be used when additional RAM is required.
