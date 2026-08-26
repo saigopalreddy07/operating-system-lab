@@ -1,0 +1,139 @@
+NAME:Y.SAI GOPAL REDDY
+REG NO:192524083 
+COURSE CODE: CSA0406
+COURSE NAME: Operating Systems 
+
+
+Q1:
+BEGIN
+    SET threshold = 80%
+    usage = GET_DISK_USAGE()
+    IF usage > threshold THEN
+
+        IDENTIFY log_files
+        SORT log_files BY size DESCENDING
+
+        FOR each file IN log_files DO
+
+            IF file is old THEN
+                COMPRESS or DELETE file
+            ENDIF
+
+            usage = GET_DISK_USAGE()
+
+            IF usage <= threshold THEN
+                BREAK
+            ENDIF
+
+        ENDFOR
+
+    ENDIF
+
+    PRINT "Disk usage is under control"
+
+Q2:
+BEGIN
+    INPUT process_list
+
+    SORT process_list BY priority
+    (highest priority first)
+
+    WHILE process_list is NOT EMPTY DO
+
+        SELECT process WITH highest priority
+
+        ALLOCATE CPU time
+
+        EXECUTE process
+
+        IF process is completed THEN
+            REMOVE process from process_list
+        ELSE
+            REDUCE priority slightly
+            ADD process back to process_list
+        ENDIF
+
+    ENDWHILE
+
+    PRINT "All processes completed"
+END
+
+Q3:
+BEGIN
+    total_RAM = 16 GB
+
+    host_reserved = 4 GB
+
+    available_RAM = total_RAM - host_reserved
+
+    INPUT number_of_VMs
+
+    min_RAM = 2 GB
+
+    FOR i = 1 TO number_of_VMs DO
+
+        IF available_RAM >= min_RAM THEN
+
+            ALLOCATE min_RAM TO VM[i]
+
+            available_RAM =
+                available_RAM - min_RAM
+
+        ELSE
+
+            PRINT "Insufficient memory for VM[i]"
+
+        ENDIF
+
+    ENDFOR
+
+    PRINT "RAM allocation completed"
+END
+
+Q4:
+BEGIN
+
+    INPUT performance_required
+    INPUT budget
+    INPUT hardware_access
+
+    IF performance_required = HIGH
+       AND hardware_access = TRUE THEN
+
+        SELECT Type_1_Hypervisor
+
+    ELSE IF budget = LOW THEN
+
+        SELECT Type_2_Hypervisor
+
+    ELSE
+
+        SELECT Type_1_Hypervisor
+
+    ENDIF
+
+    PRINT selected_hypervisor
+
+END
+
+Q5:
+BEGIN
+    INPUT application_list
+    FOR each app IN application_list DO
+        CREATE cgroup for app
+        SET CPU limit for app
+
+        SET memory limit for app
+
+        ASSIGN process to cgroup
+
+    ENDFOR
+
+    MONITOR CPU and memory usage
+
+    IF application exceeds its limit THEN
+        RESTRICT resource usage
+    ENDIF
+
+END
+END
